@@ -6,18 +6,20 @@ sgi-webapp:
   image:
     # image.repository is required
     repository: h3rcul3scru3/sgi-webapp
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.7.0
 
   ## Should be enabled and set the correct hostname to be accesible from outside
   ingress:
     enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
+    className: nginx
+    spec:
+      ingressClassName: nginx
     hosts:
-      - host: demo.hercules-sgi.com
-        paths: /
+      - host: demo.hercules-sgi.local
+        paths:
+          - path: /
 
 ## USR Service
 sgi-usr-service:
@@ -25,9 +27,9 @@ sgi-usr-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/usr-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.3.0
 
 
   spring:
@@ -62,7 +64,7 @@ sgi-usr-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/usr(/|$)(.*)
 
@@ -72,9 +74,9 @@ sgi-eer-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/eer-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.2.0
 
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
@@ -109,7 +111,7 @@ sgi-eer-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/eer(/|$)(.*)
 
@@ -119,9 +121,9 @@ sgi-eti-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/eti-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.5.2
 
 
   spring:
@@ -155,7 +157,7 @@ sgi-eti-service:
       value: "http://sgi-sgi-cnf-service"
     ## external webapp accesible base url
     - name: SGI_WEB-URL
-      value: "http://demo.hercules-sgi.com"
+      value: "http://demo.hercules-sgi.local"
     ## Blockchain API base url
     - name: SGI_BLOCKCHAIN_URL
       value: "http://blockchain.local"
@@ -181,7 +183,7 @@ sgi-eti-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/eti(/|$)(.*)
 
@@ -191,9 +193,9 @@ sgi-csp-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/csp-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.6.0
 
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
@@ -235,7 +237,7 @@ sgi-csp-service:
       value: "http://sgi-sgi-esb/sgemp"
     ## external webapp accesible base url
     - name: SGI_WEB-URL
-      value: "http://demo.hercules-sgi.com"
+      value: "http://demo.hercules-sgi.local"
     ## Datasource configuration
     - name: SPRING_DATASOURCE_INITIALIZATION-MODE
       value: ALWAYS
@@ -255,7 +257,7 @@ sgi-csp-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/csp(/|$)(.*)
 
@@ -265,9 +267,9 @@ sgi-pii-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/pii-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.4.0
 
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
@@ -311,7 +313,7 @@ sgi-pii-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/pii(/|$)(.*)
 
@@ -321,10 +323,9 @@ sgi-rel-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/rel-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
-
+    tag: 0.2.0
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
     securityOauth2ResourceserverJwtJwkSetUri: http://sgi-sgi-keycloak/auth/realms/sgi/protocol/openid-connect/certs
@@ -358,7 +359,7 @@ sgi-rel-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/rel(/|$)(.*)
 
@@ -368,10 +369,9 @@ sgi-tp-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/tp-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
-
+    tag: 0.2.0
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
     securityOauth2ResourceserverJwtJwkSetUri: http://sgi-sgi-keycloak/auth/realms/sgi/protocol/openid-connect/certs
@@ -432,7 +432,7 @@ sgi-tp-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/tp(/|$)(.*)
 
@@ -442,9 +442,9 @@ sgi-rep-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/rep-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.5.0
 
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
@@ -512,7 +512,7 @@ sgi-rep-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/rep(/|$)(.*)
 
@@ -522,9 +522,9 @@ sgi-com-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/com-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.4.0
 
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
@@ -604,7 +604,7 @@ sgi-com-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/com(/|$)(.*)
 
@@ -614,9 +614,9 @@ sgi-cnf-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/cnf-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.5.0
 
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
@@ -651,7 +651,7 @@ sgi-cnf-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/cnf(/|$)(.*)
 
@@ -661,9 +661,9 @@ sgi-prc-service:
   image:
     # image.repository is required
     repository: h3rcul3scru3/prc-service
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.3.0
 
   spring:
     ## Endpoint of Signing certificate of JWT tokens. Change only the hostname or protocol.
@@ -728,7 +728,7 @@ sgi-prc-service:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api/prc(/|$)(.*)
 
@@ -738,9 +738,9 @@ sgi-keycloak:
   image:
     # image.repository is required
     repository: h3rcul3scru3/auth
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.4.0
 
   settings:
     # Admin username
@@ -787,7 +787,7 @@ sgi-keycloak:
     annotations:
       kubernetes.io/ingress.class: nginx
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /auth
 
@@ -797,9 +797,9 @@ sgi-esb:
   image:
     # image.repository is required
     repository: h3rcul3scru3/esb-wso2-mi
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.5.0-um
 
   ## Auth validation config
   auth:
@@ -887,7 +887,7 @@ sgi-esb:
       nginx.ingress.kubernetes.io/rewrite-target: $1
       nginx.ingress.kubernetes.io/proxy-body-size: "10m" #Default size is 1M, needed for sgdoc
     hosts:
-      - host: demo.hercules-sgi.com
+      - host: demo.hercules-sgi.local
         paths:
           - path: /api(/.*)
 
@@ -906,10 +906,10 @@ sgo-service:
 
   image:
     # image.repository is required
-    repository: h3rcul3scru3/external/sgo-service
-    pullPolicy: Always
+    repository: h3rcul3scru3/sgo-service
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.2.0
 
   # Database configuration
   database:
@@ -965,10 +965,10 @@ sgdoc-service:
 
   image:
     # image.repository is required
-    repository: h3rcul3scru3/external/sgdoc-service
-    pullPolicy: Always
+    repository: h3rcul3scru3/sgdoc-service
+    pullPolicy: IfNotPresent
     # image.tag is required
-    tag: 0.0.13
+    tag: 0.2.0
 
   # Database configuration
   database:
@@ -1017,7 +1017,7 @@ sgdoc-service:
 ## To see all available options, helm show values bitnami/postgresql --version 10.16.2
 postgresql:
   # wether to create or not an external persistent database
-  enabled: false
+  enabled: true
 
   # image version to use
   image:
